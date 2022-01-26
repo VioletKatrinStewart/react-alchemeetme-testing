@@ -17,3 +17,5 @@ const Home = ({ user }) => {
 }
 
 export default Home
+
+//added secrets
