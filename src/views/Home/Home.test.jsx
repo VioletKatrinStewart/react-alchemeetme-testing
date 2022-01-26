@@ -1,3 +1,5 @@
+import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import Home from './Home'
 
 const user = {
   id: 1,
@@ -10,6 +12,23 @@ const user = {
   color: 'crimson',
 }
 
-test('Should render the user profile', () => {
+test('Should render the user profile', async () => {
+  render(<Home user={user} />)
 
+  const { name, color, morro, likes } = user
+
+  const profileHeader = await screen.findByAltText('header')
+  const avatar = screen.getByAltText('avatar')
+
+  const profileName = screen.getByRole('heading', { name })
+  const favoriteColor = screen.getByText(color)
+  const interests = screen.getByRole('heading', { name: /interests/i })
+  const likeList = screen.getByRole('list')
+
+  expect(profileHeader).toBeInTheDocument()
+  expect(avatar).toBeInTheDocument()
+  expect(profileName).toBeInTheDocument()
+  expect(favoriteColor).toBeInTheDocument()
+  expect(interests).toBeInTheDocument()
+  expect(likeList.children.length).toEqual(likes.length)
 })
